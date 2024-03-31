@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="container">
+        <header>
+            <h1>Wlecome To YMentor</h1>
+            <p>Connect with experienced mentors and share your experiences as a mentor too.</p>
+        </header>
+    </div>
+    {% for mentor in mentors %}
+     <h1>{{ mentor.title }}</h1>
+     <p>{{ mentor.name }} in {{ mentor.field }}</p>
+    {% endfor %}
+    <ul id="mentor-list"></ul>
+    <div id="audio_messages"></div>
+    <div>
+        <button id="record_button">Make call</button>
+        <button id="kill_button">End call</button>
+    </div>
+    <section class="cta-section">
+        <h2>Are you looking for a mentor?</h2>
+        <p>Find experienced mentors to guide you in your career or personal development.</p>
+        <a href="#mentees-section" class="btn">Find a Mentor</a>
+    </section>
+    <section id="mentors-section" class="cta-section">
+        <h2>Are you willing to mentor?</h2>
+        <p>Share your knowledge and expertise with aspiring mentees.</p>
+        <a href="#mentees-section" class="btn">Become a Mentor</a>
+    </section>
+    <section id="mentees-section" class="mentees-section">
+        <h2>Connect with Mentors</h2>
+        <p>Search for mentors based on your interests and goals.</p>
+        <!-- Form for mentees to search for mentors -->
+    </section>
+    <footer>
+        <p>&copy; 2024 YMentor. All rights reserved.</p>
+    </footer>
+    <script src="{{ url_for('static', filename='youmanscript.js') }}"></script>
+{% endblock %}

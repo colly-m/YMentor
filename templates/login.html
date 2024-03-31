@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The YMentor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='credentials.css') }}">
+</head>
+<body>
+    <form action="{{ url_for('login') }}" class="form" method="post">
+        <h1>Login</h1>
+        <input type="text" name="username" class="box" placeholder="Username" required><br>
+        <input type="password" name="password" class="box" placeholder="Password" required><br>
+        <button type="submit">Login</button>
+        <small class="text-muted ml-2">
+            <a href="{{ url_for('reset_password') }}">Forgot Password?</a>
+        </small>
+    </form>
+    <small class="text-muted">
+        Need An Account? 
+        <a class="ml-2" href="{{ url_for('signup') }}">Sign Up Now</a>
+    </small>
+</body>
+</html>

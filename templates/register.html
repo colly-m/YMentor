@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The YMentor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='credentials.css') }}">
+</head>
+<body>
+    {% if error_message %}
+        <p class="color: red;">{{ error }}</p>
+    {% endif %}
+    <div class="content-section">
+        <form action="{{ url_for('signup') }}" class="form" method="post">
+            <h1>Sign Up</h1>
+                <legend class="border-bottom mb-4">Join Today</legend>
+                    <input type="text" name="username" class="box" placeholder="Username" required><br>
+                    <input type="email" name="email" class="box" placeholder="Email" required><br>
+                    <input type="password" name="password" class="box" placeholder="Password" required><br>
+                    <input type="password" name="confirm_password" class="box" placeholder="Confirm_password" required><br>
+                <button type="submit" class="btn btn-outline-info">Submit</button>
+            </fieldset>
+        </form> 
+    </div>
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            Already Have An Account? <a class="ml-2" href="{{ url_for('login') }}">Sign In</a>
+        </small>
+    </div>
+</body>
+</html>
