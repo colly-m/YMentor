@@ -9,7 +9,7 @@ We all know how fulfiling it is to help someone so that is the same idea that ca
 while creating this application to be able to connect poeple, who are in similar fields and
 are at diffent levels and helping each other grow.
 
-
+![chartthumbnail](https://github.com/colly-m/Youman/assets/133562789/7d4ca2ea-fe01-4c05-83cf-f5b1358a15e3)
 
 For the front end I choose to use HTML, Javascript and CSS3. I did not include other 
 frameworks to it but alittle bootstrap was added to the html. The main point was to actual 
