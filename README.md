@@ -1,5 +1,6 @@
-HuMen-tor
-https://vectorizer.ai/images/1712760370419-9fcfe04b179605b5-d25a574f9e855c95a3dc80d2b9839999c5fe244483aec00882b6d905f6978163/thumbnail)
+# HuMen-tor logo
+![humentthumbnail](https://github.com/colly-m/Youman/assets/133562789/39528d26-0ab0-4247-958d-2d6c9a47cf99)
+
 The HuMentor project idea came up to enable ease in connection between mentors and people 
 who may need there expertice in particular fields and not necessarily turn to AI and maybe 
 get first hand infomation from a person who has been able to tackle the same, I mean get 
@@ -8,7 +9,7 @@ We all know how fulfiling it is to help someone so that is the same idea that ca
 while creating this application to be able to connect poeple, who are in similar fields and
 are at diffent levels and helping each other grow.
 
-https://vectorizer.ai/images/1712760718261-b239e331cc9eeabd-9609ffd5d05b7afa8e9821802e38d1ffa8f72b25310942c6831693f02a28690d/thumbnail
+
 
 For the front end I choose to use HTML, Javascript and CSS3. I did not include other 
 frameworks to it but alittle bootstrap was added to the html. The main point was to actual 
