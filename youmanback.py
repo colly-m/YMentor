@@ -1,31 +1,36 @@
 from flask import Flask, jsonify, request, render_template, redirect, flash, url_for
 from flask_sqlalchemy import SQLAlchemy
+from flask_mysqldb import MySQL
 import mysql.connector
+#from models import Model
 from datetime import datetime
 
 #conn = mysql.connector.connect(host="localhost")
 
 app = Flask(__name__)
-
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'your_username'
+app.config['MYSQL_PASSWORD'] = 'your_password'
+#app.config['MYSQL_DB'] = 'mentors_app'
 app.config['SECRET_KEY'] = '58c65d7f2e4ec6a6830b51db79dcb1f'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql:///site.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///youmentor.db'
 
-#db = SQLAlchemy(app)
+db = SQLAlchemy(app)
 
-#with app.app_context():
-    #from models import Model
-    #db.create_all()
+with app.app_context():
+    db.create_all()
 
-#class User(db.Model):
-    #id = db.Column(db.Integer, primary_key=True)
-    #username = db.Column(db.String(20), unique=True, nullable=False)
-    #email = db.Column(db.String(50), unique=True, nullable=False)
-    #image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
-    #password = db.Column(db.String(60), nullable=False)
+class Users(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(30), unique=True, nullable=False)
+    email = db.Column(db.String(50), unique=True, nullable=False)
+    image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
+    password = db.Column(db.String(60), nullable=False)
     #posts =  db.relationship('Post', backref='author', lazy=True)
+    date_added = db.Column(db.DateTime, default=datetime.utcnow)
 
-    #def __repr__(self):
-        #return f"User('{self.username}','{self.email}', '{self.image_file}')"
+    def __repr__(self):
+        return f"Users('{self.username}','{self.email}', '{self.image_file}')"
     
 
 #class Post(db.Model):
@@ -107,8 +112,8 @@ def signup():
             # Add new user to the database (replace with database interaction)
         users[username] = {'email': email, 'password': password}
             # Successful sign-up
-        #flash('Sign up successful! Please log in.', 'success')
-        return redirect(url_for('login'))
+        flash('Sign up successful! Please log in.', 'success')
+        return redirect(url_for('home'))
     return render_template('register.html')
 
 
@@ -143,10 +148,20 @@ def get_mentors():
     return jsonify(mentors)
 
 """API endpoint to add a new mentor"""
-@app.route('/mentors', methods=['POST'])
+@app.route('/mentors', methods=['GER', 'POST'])
 def add_mentor():
-    mentor = request.json
-    mentors.append(mentor)
+    if request.method == 'GET':
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM mentors")
+        mentors = cur.fetchall()
+        cur.close()
+        return jsonify(mentors)
+    elif request.method == 'POST':
+        new_mentor = request.json
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO mentors (name, field) VALUES (%s, %s)", (new_mentor['name'], new_mentor['field']))
+        mysql.connection.commit()
+        cur.close()
     return jsonify({"message": "Mentor added successfully", "mentor": mentor}), 201
 
 
