@@ -1,17 +1,28 @@
 from flask import Flask, jsonify, request, render_template, redirect, flash, url_for
 from flask_sqlalchemy import SQLAlchemy
-from flask_mysqldb import MySQL
+#from flask_mysqldb import MySQL
 import mysql.connector
 #from models import Model
 from datetime import datetime
 
-#conn = mysql.connector.connect(host="localhost")
+app = Flask(__name__)
+
+connection = mysql.connector.connect(
+    host="localhost",
+    user="username",
+    password="password",
+    database="database"
+)
+
+cursor = connection.cursor()
+
+#cursor.execute("CREATE DATABASE ymentor_app")
 
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'your_username'
 app.config['MYSQL_PASSWORD'] = 'your_password'
-#app.config['MYSQL_DB'] = 'mentors_app'
+app.config['MYSQL_DB'] = 'ymentor_app'
 app.config['SECRET_KEY'] = '58c65d7f2e4ec6a6830b51db79dcb1f'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///youmentor.db'
 
@@ -26,22 +37,22 @@ class Users(db.Model):
     email = db.Column(db.String(50), unique=True, nullable=False)
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
-    #posts =  db.relationship('Post', backref='author', lazy=True)
+    posts =  db.relationship('Post', backref='author', lazy=True)
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
         return f"Users('{self.username}','{self.email}', '{self.image_file}')"
     
 
-#class Post(db.Model):
-    #id = db.Column(db.Integer, primary_key=True)
-    #title = db.Column(db.String(100), nullable=False)
-    #date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    #content = db.Column(db.Text, nullable=False)
-    #user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    content = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
-    #def __repr__(self):
-        #return f"Post('{self.title}','{self.date_posted}')"
+    def __repr__(self):
+        return f"Post('{self.title}','{self.date_posted}')"
 
 """Sample mentor data"""
 mentors = [
@@ -158,11 +169,11 @@ def add_mentor():
         return jsonify(mentors)
     elif request.method == 'POST':
         new_mentor = request.json
-        cur = mysql.connection.cursor()
+        cur = mysql.connector.cursor()
         cur.execute("INSERT INTO mentors (name, field) VALUES (%s, %s)", (new_mentor['name'], new_mentor['field']))
         mysql.connection.commit()
         cur.close()
-    return jsonify({"message": "Mentor added successfully", "mentor": mentor}), 201
+    return jsonify({"message": "Mentor added successfully", "mentor": new_mentor}), 201
 
 
 if __name__ == '__main__':
